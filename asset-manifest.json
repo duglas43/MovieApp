@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/my-app/static/css/main.4a9c0b10.css",
+    "main.js": "/my-app/static/js/main.6e756307.js",
+    "static/media/slider-img.jpg": "/my-app/static/media/slider-img.d96e0f935ad0f2b112eb.jpg",
+    "static/media/movieCard.jpg": "/my-app/static/media/movieCard.578e2b2f110d0010acd3.jpg",
+    "static/media/HelveticaNeueCyr-Roman.woff2": "/my-app/static/media/HelveticaNeueCyr-Roman.d59df5a538d671a54c79.woff2",
+    "static/media/HelveticaNeueCyr-Medium.woff2": "/my-app/static/media/HelveticaNeueCyr-Medium.751c19bd96c1fdbe6c88.woff2",
+    "static/media/HelveticaNeueCyr-Bold.woff2": "/my-app/static/media/HelveticaNeueCyr-Bold.a737902275e936eaf242.woff2",
+    "static/media/slick.svg": "/my-app/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/my-app/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/my-app/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/my-app/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/my-app/index.html",
+    "static/media/right-arrow.svg": "/my-app/static/media/right-arrow.64078b8614d450e512822fc804734fe4.svg",
+    "static/media/left-arrow.svg": "/my-app/static/media/left-arrow.b2201b0daa43bdd96277cee5e980ada5.svg",
+    "main.4a9c0b10.css.map": "/my-app/static/css/main.4a9c0b10.css.map",
+    "main.6e756307.js.map": "/my-app/static/js/main.6e756307.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4a9c0b10.css",
+    "static/js/main.6e756307.js"
+  ]
+}
