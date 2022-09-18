@@ -21,6 +21,10 @@
 - Новые хуки React Router
 - Оптимизация отрисовки страниц
 
+## Ссылка на сайт
+
+https://duglas43.github.io/MovieApp/
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
