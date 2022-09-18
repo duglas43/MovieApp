@@ -1,0 +1,32 @@
+@import "../../style/variables";
+
+.root {
+  position: relative;
+}
+
+.input {
+  all: unset;
+  background-color: $dark-grey;
+  height: 24px;
+  width: calc(100% - 5.2rem);
+  padding-bottom: 0.75rem;
+  padding-top: 0.75rem;
+  padding-left: 3.3rem;
+  padding-right: 1.9rem;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 0.7rem;
+  transform: translateY(-50%);
+  font-size: 25px;
+}
+
+.clear {
+  font-size: 25px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}

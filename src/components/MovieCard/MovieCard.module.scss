@@ -1,0 +1,30 @@
+@import "../../style/_variables";
+
+.card {
+  position: relative;
+  width: 175px;
+  height: 297px;
+  margin: 4px 20px 0 0;
+  padding-bottom: 8px;
+  text-align: center;
+  color: $light-grey;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.rating {
+  width: 51px;
+  height: 24px;
+  background-color: rgb(81, 121, 255);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 14px;
+}

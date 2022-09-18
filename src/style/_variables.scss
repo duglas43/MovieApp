@@ -1,0 +1,19 @@
+$grey: rgb(152, 152, 152);
+$light-grey: rgb(209, 213, 219);
+$dark-grey: rgb(51, 51, 53);
+
+.title__text {
+  font-size: 20px;
+  color: white;
+}
+
+.dynamic-text,
+.dynamic-text a {
+  color: $grey;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    color: white;
+  }
+
+}
