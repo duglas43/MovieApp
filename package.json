@@ -2,7 +2,7 @@
   "name": "new-movie",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://duglas43.github.io/my-app",
+  "homepage": "https://duglas43.github.io/MovieApp/",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",

@@ -1,4 +1,27 @@
-# Getting Started with Create React App
+# Киносайт на Typescript (В РАЗРАБОТКЕ)
+
+## Stack
+
+- ReactJS + хуки
+- React Router
+- Redux
+- Redux toolkit
+- Redux thunk API
+- Redux-persist
+- TypeScript
+- Axios
+- React Bootstrap
+- React-content-loader
+
+## Новые для меня технологиии, которые я применил в этом проекте
+
+- TypeScript
+- debounce, поиск фильмов с помощью backend
+- Css modules
+- Новые хуки React Router
+- Оптимизация отрисовки страниц
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
