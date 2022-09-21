@@ -1,7 +1,9 @@
 {
   "files": {
-    "main.css": "/MovieApp/static/css/main.aee7c32b.css",
-    "main.js": "/MovieApp/static/js/main.1295a6ee.js",
+    "main.css": "/MovieApp/static/css/main.3af32b42.css",
+    "main.js": "/MovieApp/static/js/main.f4621a23.js",
+    "static/media/not-found-img.jpg": "/MovieApp/static/media/not-found-img.7a30f9a51b42e53a8202.jpg",
+    "static/media/search-img.jpg": "/MovieApp/static/media/search-img.51e509ead046975b209a.jpg",
     "static/media/slider-img.jpg": "/MovieApp/static/media/slider-img.d96e0f935ad0f2b112eb.jpg",
     "static/media/movieCard.jpg": "/MovieApp/static/media/movieCard.578e2b2f110d0010acd3.jpg",
     "static/media/HelveticaNeueCyr-Roman.woff2": "/MovieApp/static/media/HelveticaNeueCyr-Roman.d59df5a538d671a54c79.woff2",
@@ -11,14 +13,14 @@
     "static/media/slick.eot": "/MovieApp/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/MovieApp/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/MovieApp/static/media/slick.295183786cd8a1389865.woff",
-    "index.html": "/MovieApp/index.html",
     "static/media/right-arrow.svg": "/MovieApp/static/media/right-arrow.64078b8614d450e512822fc804734fe4.svg",
     "static/media/left-arrow.svg": "/MovieApp/static/media/left-arrow.b2201b0daa43bdd96277cee5e980ada5.svg",
-    "main.aee7c32b.css.map": "/MovieApp/static/css/main.aee7c32b.css.map",
-    "main.1295a6ee.js.map": "/MovieApp/static/js/main.1295a6ee.js.map"
+    "index.html": "/MovieApp/index.html",
+    "main.3af32b42.css.map": "/MovieApp/static/css/main.3af32b42.css.map",
+    "main.f4621a23.js.map": "/MovieApp/static/js/main.f4621a23.js.map"
   },
   "entrypoints": [
-    "static/css/main.aee7c32b.css",
-    "static/js/main.1295a6ee.js"
+    "static/css/main.3af32b42.css",
+    "static/js/main.f4621a23.js"
   ]
 }
