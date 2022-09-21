@@ -1,20 +1,22 @@
 import React from "react";
-import { SideBar } from "./components";
-import { useSelector } from "react-redux";
 import Home from "./pages/Home";
+import Navigation from "./pages/Navigation";
+import SearchPage from "./pages/SearchPage";
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import NotFound from "./pages/NotFound";
+
 function App() {
-  const isAsideMobileActive = useSelector(
-    (state) => state.sidebarSlice.isAsideMobileActive
-  );
-  const isAsideMini = useSelector((state) => state.sidebarSlice.isMini);
   return (
     <div className="App">
-      <SideBar isMobileActive={isAsideMobileActive} isMini={isAsideMini} />
-      <main
-        className={`main ${isAsideMini ? "main--expanded-for-aside-mini" : ""}`}
-      >
-        <Home />
-      </main>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/navigation" element={<Navigation />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

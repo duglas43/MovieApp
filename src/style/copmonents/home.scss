@@ -1,0 +1,16 @@
+@import "../_variables";
+
+.right-bar__card-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 25px;
+  border: 2px solid $blue;
+  font-size: 14px;
+  color: $blue;
+}
+
+.right-bar__btn {
+  height: 40px;
+}

@@ -8,11 +8,54 @@ import {
   faClockRotateLeft,
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
+import { setActive } from "../redux/slices/sidebarSlice";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-function SideBar({ isMini, isMobileActive }) {
+import { Link } from "react-router-dom";
+
+const sideBarList = [
+  {
+    id: 0,
+    icon: faHouse,
+    title: "Домашняя страница",
+    type: "home",
+  },
+  {
+    id: 1,
+    icon: faCompass,
+    title: "Навигатор",
+    type: "navigation",
+  },
+  {
+    id: 2,
+    icon: faMagnifyingGlass,
+    title: "Поиск",
+    type: "search",
+  },
+  {
+    id: 3,
+    icon: faHeart,
+    title: "Понравившиеся",
+    type: "liked",
+  },
+  {
+    id: 4,
+    icon: faClockRotateLeft,
+    title: "История",
+    type: "history",
+  },
+];
+function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
+  const dispatch = useDispatch();
+  const onBackDropClick = () => {
+    if (isMobileActive) {
+      dispatch(setActive(false));
+    }
+  };
   return (
     <div
-      className={`aside d-none d-md-block ${isMini ? "mini" : ""} ${
+      onClick={onBackDropClick}
+      className={`aside d-md-block ${isMini ? "mini" : ""} ${
         isMobileActive ? "active" : ""
       }`}
     >
@@ -28,42 +71,27 @@ function SideBar({ isMini, isMobileActive }) {
               Movie<span className="text-primary">Site</span>
             </div>
           </li>
-          <li className="aside__item dynamic-text active">
-            <FontAwesomeIcon className="aside__item-img" icon={faHouse} />
-            <button className="aside__button" type="button">
-              Домашняя страница
-            </button>
-          </li>
-          <li className="aside__item dynamic-text">
-            <FontAwesomeIcon className="aside__item-img" icon={faCompass} />
-            <button className="aside__button" type="button">
-              Навигатор
-            </button>
-          </li>
-          <li className="aside__item dynamic-text">
-            <FontAwesomeIcon
-              className="aside__item-img"
-              icon={faMagnifyingGlass}
-            />
-            <button className="aside__button" type="button">
-              Поиск
-            </button>
-          </li>
-          <li className="aside__item dynamic-text">
-            <FontAwesomeIcon className="aside__item-img" icon={faHeart} />
-            <button className="aside__button" type="button">
-              Понравившиеся
-            </button>
-          </li>
-          <li className="aside__item dynamic-text">
-            <FontAwesomeIcon
-              className="aside__item-img"
-              icon={faClockRotateLeft}
-            />
-            <button className="aside__button" type="button">
-              История
-            </button>
-          </li>
+          {sideBarList.map((item, index) => {
+            return (
+              <li
+                className={`aside__item dynamic-text ${
+                  item.id === activePageId ? "active" : ""
+                }`}
+                key={item.id}
+                onClick={() => onClick(item.id)}
+              >
+                <Link to={item.id ? `${item.type}` : "/"}>
+                  <FontAwesomeIcon
+                    className="aside__item-img"
+                    icon={item.icon}
+                  />
+                  <button className="aside__button" type="button">
+                    {item.title}
+                  </button>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
         <div className="aside__settings">
           <div className="aside__item dynamic-text">

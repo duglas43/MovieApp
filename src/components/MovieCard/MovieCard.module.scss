@@ -15,10 +15,21 @@
   }
 }
 
+.card--grid {
+  width: 100%;
+  height: auto;
+  margin: 0;
+
+  .img {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .rating {
   width: 51px;
   height: 24px;
-  background-color: rgb(81, 121, 255);
+  background-color: $blue;
   color: white;
   display: flex;
   align-items: center;

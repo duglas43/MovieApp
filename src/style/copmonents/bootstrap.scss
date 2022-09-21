@@ -1,0 +1,29 @@
+// 1. Сначала включите функции (чтобы Вы могли управлять цветами, SVG, вычислением и т.д.)
+@import "bootstrap/scss/functions";
+
+// 2. Включите сюда любые переопределения переменных по умолчанию
+$enable-cssgrid: true;
+
+// 3. Включите оставшуюся часть необходимых таблиц стилей Bootstrap
+@import "bootstrap/scss/variables";
+
+// 4. Включите сюда любые переопределения карт по умолчанию
+
+// 5. Include remainder of required parts
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// 6. При необходимости включите любые другие части
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+
+// 7. При желании добавьте API утилит в последнюю очередь, чтобы генерировать классы на основе карты Sass в `_utilities.scss`
+@import "bootstrap/scss/utilities/api";
+
+// 8. Добавьте сюда дополнительный пользовательский код
