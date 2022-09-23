@@ -8,11 +8,10 @@ import {
   faClockRotateLeft,
   faGear,
 } from "@fortawesome/free-solid-svg-icons";
-import { setActive } from "../redux/slices/sidebarSlice";
+import { setActiveSideBar } from "../redux/slices/UiSlice";
 import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-
 const sideBarList = [
   {
     id: 0,
@@ -49,7 +48,7 @@ function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
   const dispatch = useDispatch();
   const onBackDropClick = () => {
     if (isMobileActive) {
-      dispatch(setActive(false));
+      dispatch(setActiveSideBar(false));
     }
   };
   return (

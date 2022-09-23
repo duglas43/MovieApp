@@ -1,11 +1,7 @@
 import React from "react";
-import Home from "./pages/Home";
-import Navigation from "./pages/Navigation";
-import SearchPage from "./pages/SearchPage";
 import { Routes, Route } from "react-router-dom";
+import { Home, SearchPage, Navigation, NotFound } from "./pages";
 import MainLayout from "./layouts/MainLayout";
-import NotFound from "./pages/NotFound";
-
 function App() {
   return (
     <div className="App">

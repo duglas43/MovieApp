@@ -107,4 +107,14 @@
 
 .tag {
   border: 1px solid $grey;
+
+  &.active {
+    background: $blue;
+    color: white;
+    border: none;
+
+    &:hover {
+      background: rgb(45, 93, 251);
+    }
+  }
 }

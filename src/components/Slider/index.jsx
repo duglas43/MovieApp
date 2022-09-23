@@ -6,7 +6,7 @@ import leftArrow from "../../assets/left-arrow.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function MySlider() {
+function MySlider({ slideList, listTitle }) {
   const settings = {
     className: "slider variable-width",
     infinite: true,
@@ -38,15 +38,8 @@ function MySlider() {
   };
   return (
     <div className="slider-wrapper mt-5">
-      <p className="slider__title title__text mb-4">Популярное</p>
-      <Slider {...settings}>
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
-        <MovieCard />
-      </Slider>
+      <p className="slider__title title__text mb-4">{listTitle}</p>
+      <Slider {...settings}>{slideList.map((item) => item)}</Slider>
     </div>
   );
 }

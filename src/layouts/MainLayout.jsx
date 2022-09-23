@@ -2,36 +2,52 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClapperboard } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { setMini, setActive } from "../redux/slices/sidebarSlice";
-import { setActivePageId } from "../redux/slices/filterSlice";
+import {
+  setMiniSideBar,
+  setActiveSideBar,
+  setActivePageId,
+  pageList,
+} from "../redux/slices/UiSlice";
 import { SideBar } from "../components";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 function MainLayout() {
   const dispatch = useDispatch();
-  const activePageId = useSelector(
-    ({ filterSlice }) => filterSlice.activePageId
+  const location = useLocation();
+  const activePageId = useSelector(({ UiSlice }) => UiSlice.activePageId);
+  const { sideBarMobileActive, sideBarMini } = useSelector(
+    ({ UiSlice }) => UiSlice
   );
-  const isAsideMobileActive = useSelector(
-    (state) => state.sidebarSlice.mobileActive
-  );
-  const isAsideMini = useSelector((state) => state.sidebarSlice.isMini);
-  const sideBarItemClick = (id) => {
+  // Функция для изменения активной страницы
+  const changeActivePage = (id) => {
     dispatch(setActivePageId(id));
-    id ? dispatch(setMini(true)) : dispatch(setMini(false));
+    id ? dispatch(setMiniSideBar(true)) : dispatch(setMiniSideBar(false));
   };
+  // Открытие сайдбара на бургере
   const onBurgerClick = () => {
-    dispatch(setActive(!isAsideMobileActive));
+    dispatch(setActiveSideBar(!sideBarMobileActive));
   };
+
+  // Отправка данных о активной странице в Redux при первом рендере
+  React.useEffect(() => {
+    const id = pageList.find(
+      (item) => item.type === location.pathname.slice(1)
+    )?.id;
+    if (location.pathname.slice(1)) {
+      dispatch(setActivePageId(id));
+      dispatch(setMiniSideBar(true));
+    }
+  }, []);
+
   return (
     <div>
       <SideBar
-        isMobileActive={isAsideMobileActive}
-        isMini={isAsideMini}
+        isMobileActive={sideBarMobileActive}
+        isMini={sideBarMini}
         activePageId={activePageId}
-        onClick={sideBarItemClick}
+        onClick={changeActivePage}
       />
       <main
-        className={`main ${isAsideMini ? "main--expanded-for-aside-mini" : ""}`}
+        className={`main ${sideBarMini ? "main--expanded-for-aside-mini" : ""}`}
       >
         <header className="d-md-none mobile-header px-4 mt-3">
           <div className="d-flex align-items-center">

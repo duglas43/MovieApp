@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rightBarSlice from "./slices/rightBarSlice";
-import sidebarSlice from "./slices/sidebarSlice";
+import UiSlice from "./slices/UiSlice";
 import filterSlice from "./slices/filterSlice";
+import moviesSlice from "./slices/moviesSlice";
 const store = configureStore({
-  reducer: { rightBarSlice, sidebarSlice, filterSlice },
+  reducer: { UiSlice, filterSlice, moviesSlice },
 });
 export default store;

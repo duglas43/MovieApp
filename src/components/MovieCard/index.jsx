@@ -1,7 +1,10 @@
 import React from "react";
 // import movieCardImg from "../../assets/movieCard.jpg";
 import styles from "./MovieCard.module.scss";
-function MovieCard({ isGrid, poster_path, name, vote_average }) {
+function MovieCard({ isGrid, poster_path, title, vote_average }) {
+  const [imgSrc, setImgSrc] = React.useState(
+    `https://image.tmdb.org/t/p/w500${poster_path}`
+  );
   return (
     <div
       className={`${styles.card} ${isGrid ? styles["card--grid"] : ""}`}
@@ -11,13 +14,18 @@ function MovieCard({ isGrid, poster_path, name, vote_average }) {
         {vote_average} <i className="bx bxs-star ms-1"></i>
       </div>
       <img
-        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+        src={imgSrc}
         width="175"
+        onError={() => {
+          setImgSrc(
+            "https://via.placeholder.com/500x750/333335/?text=no+image+):"
+          );
+        }}
         height="262"
         className={`${styles.img} rounded-2`}
         alt="Изображение обложки фильма"
       />
-      <div className={styles.title}>{name}</div>
+      <div className={styles.title}>{title}</div>
     </div>
   );
 }

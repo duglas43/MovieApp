@@ -1,88 +1,42 @@
 import React from "react";
 import styles from "./FilterBar.module.scss";
-const genreList = [
-  {
-    id: 28,
-    name: "боевик",
-  },
-  {
-    id: 12,
-    name: "приключения",
-  },
-  {
-    id: 16,
-    name: "мультфильм",
-  },
-  {
-    id: 35,
-    name: "комедия",
-  },
-  {
-    id: 80,
-    name: "криминал",
-  },
-  {
-    id: 99,
-    name: "документальный",
-  },
-  {
-    id: 18,
-    name: "драма",
-  },
-  {
-    id: 10751,
-    name: "семейный",
-  },
-  {
-    id: 14,
-    name: "фэнтези",
-  },
-  {
-    id: 36,
-    name: "история",
-  },
-  {
-    id: 27,
-    name: "ужасы",
-  },
-  {
-    id: 10402,
-    name: "музыка",
-  },
-  {
-    id: 9648,
-    name: "детектив",
-  },
-  {
-    id: 10749,
-    name: "мелодрама",
-  },
-  {
-    id: 878,
-    name: "фантастика",
-  },
-  {
-    id: 10770,
-    name: "телевизионный фильм",
-  },
-  {
-    id: 53,
-    name: "триллер",
-  },
-  {
-    id: 10752,
-    name: "военный",
-  },
-  {
-    id: 37,
-    name: "вестерн",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectFilter,
+  setGenre,
+  setSortBy,
+  setRuntimeLte,
+  genreList,
+  sortList,
+} from "../../redux/slices/filterSlice";
+import { debounce } from "lodash";
+
 function FilterBar() {
+  const dispatch = useDispatch();
+  const { sortBy, genres, runtimeLte } = useSelector(selectFilter);
+
   const [sortByOpen, setSortByOpen] = React.useState(false);
   const [sortOpen, setSortOpen] = React.useState(true);
   const [filterOpen, setFilterOpen] = React.useState(true);
-  const [sortValue, setSortValue] = React.useState("Популярности");
+  const [runtimeValue, setRuntimeValue] = React.useState(runtimeLte);
+
+  const onSortClick = (type) => {
+    const sortByName = sortList.find((item) => item.type === type).name;
+    dispatch(setSortBy({ type, name: sortByName }));
+  };
+  const onGenreClick = (id) => {
+    dispatch(setGenre(id));
+  };
+  const changeRuntime = React.useCallback(
+    debounce((str) => {
+      dispatch(setRuntimeLte(str));
+    }, 150),
+    []
+  );
+  const onChangeRuntime = (e) => {
+    setRuntimeValue(e.target.value);
+    changeRuntime(e.target.value);
+  };
   return (
     <div>
       <div className={`${styles.filter} px-3`}>
@@ -106,16 +60,24 @@ function FilterBar() {
             className={`${styles.select__wrapper} px-3`}
           >
             <div className={`${styles.select} ${styles.title}`}>
-              {sortValue}
+              {sortBy.name}
             </div>
             <ul
               className={`${styles.select__list} ${
                 sortByOpen ? styles.active : ""
               } ${styles.title}`}
             >
-              <li className={`${styles.select__item}`}>Популярности</li>
-              <li className={`${styles.select__item}`}>Рейтингу</li>
-              <li className={`${styles.select__item}`}>Дате выхода</li>
+              {sortList.map((item) => (
+                <li
+                  key={item.type}
+                  onClick={() => {
+                    onSortClick(item.type);
+                  }}
+                  className={`${styles.select__item}`}
+                >
+                  {item.name}
+                </li>
+              ))}
             </ul>
             <div className={`${styles.select__arrow}`}>
               <i className="bx bx-chevron-down"></i>
@@ -142,24 +104,33 @@ function FilterBar() {
         <div className={`${styles.py12} ${filterOpen ? styles.active : ""} `}>
           <p className={`mb-2 ${styles.title} pb-2`}>Жанры:</p>
           <div className={`mb-2 ${styles["genres-list"]}`}>
-            {Array(40)
-              .fill(0)
-              .map((_, index) => (
-                <div
-                  className={`tag tag--outlined rounded-5 py-2 px-3 me-2 ${styles.tag}`}
-                >
-                  Some
-                </div>
-              ))}
+            {genreList.map((item) => (
+              <div
+                className={`tag tag--outlined rounded-5 py-2 px-3 me-2 mb-2 ${
+                  styles.tag
+                } ${genres.includes(item.id) ? styles.active : ""}`}
+                key={item.id}
+                role="button"
+                onClick={() => {
+                  onGenreClick(item.id);
+                }}
+              >
+                {item.name}
+              </div>
+            ))}
           </div>
           <p className={`mb-2 ${styles.title} py-2`}>Продолжительность:</p>
-          <div className={`${styles.to}`}>До 200 мин</div>
+          <div className={`${styles.to}`}>До {runtimeValue} мин</div>
           <input
+            value={runtimeValue}
             type="range"
             min="0"
             max="200"
             className="w-100 mt-2"
             step="10"
+            onChange={(e) => {
+              onChangeRuntime(e);
+            }}
           />
         </div>
       </div>

@@ -12,7 +12,7 @@ function NotFound() {
       }}
     >
       <div className="fs-1 text-white not-found__inner">
-        <p className="mb-4">Сдесь ничего нет 😕</p>
+        <p className="mb-4">Здесь ничего нет 😕</p>
         <p className="mb-4">Вернитесь на главную страницу</p>
         <Link to="/">
           <button className="btn btn-secondary border border-4 px-3 py-1 rounded-5 ">

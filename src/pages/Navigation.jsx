@@ -1,23 +1,71 @@
 import React from "react";
-import { MovieCard, FilterBar, Search } from "../components";
-const someObj = {
-  backdrop_path: "/Aa9TLpNpBMyRkD8sPJ7ACKLjt0l.jpg",
-  first_air_date: "2022-08-21",
-  genre_ids: [10765, 18, 10759],
-  id: 94997,
-  name: "Дом Дракона",
-  origin_country: ["US"],
-  original_language: "en",
-  original_name: "House of the Dragon",
-  overview:
-    "Члены дома Таргариенов оставляют обречённую Валирию и отправляются на запад, где обнаруживают огромную территорию, населённую враждующими королевствами.",
-  popularity: 8735.731,
-  poster_path: "/emAFaKrAn1mhJ3ZQbM2503a1X2s.jpg",
-  vote_average: 8.6,
-  vote_count: 1255,
-};
+import { MovieCard, FilterBar, Search, MovieCardLoading } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import qs from "qs";
+import { fetchFilterMovies, selectMovies } from "../redux/slices/moviesSlice";
+import {
+  selectFilter,
+  setFilters,
+  setSearchValue,
+} from "../redux/slices/filterSlice";
+import { setPage } from "../redux/slices/UiSlice";
 
 function Navigation() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
+  const { sortBy, genres, runtimeLte, page } = useSelector(selectFilter);
+  const { filterMovies, filterMoviesStatus } = useSelector(selectMovies);
+
+  const onSearchEnter = (e) => {
+    if (e.key === "Enter") {
+      dispatch(setPage("search"));
+      navigate("/search");
+    }
+  };
+  React.useEffect(() => {
+    dispatch(setSearchValue(""));
+  }, []);
+  // Если есть поисковый запрос, то делаем диспатч на фильтры
+  React.useEffect(() => {
+    if (location.search) {
+      const params = qs.parse(location.search, {
+        ignoreQueryPrefix: true,
+      });
+      dispatch(setFilters({ ...params }));
+      isSearch.current = true;
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!isSearch.current) {
+      dispatch(
+        fetchFilterMovies({
+          sortBy: sortBy.type,
+          genres: genres.join(","),
+          runtimeLte,
+          page,
+        })
+      );
+      window.scrollTo(0, 0);
+    }
+    isSearch.current = false;
+  }, [sortBy, genres, runtimeLte, page]);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortBy,
+        genres,
+        runtimeLte,
+      });
+      navigate(`/navigation?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [sortBy, genres, runtimeLte]);
   return (
     <div>
       <div className="container-fluid px-4 ">
@@ -25,7 +73,7 @@ function Navigation() {
           <p className="navigation__title text-white fs-2 text-uppercase">
             Найди лучшие фильмы
           </p>
-          <p className="d-none d-md-block">
+          <p className="d-none d-md-block" onKeyDown={onSearchEnter}>
             <Search />
           </p>
         </div>
@@ -33,15 +81,23 @@ function Navigation() {
           <FilterBar />
         </div>
         <div className="grid movie-grid gap-3 gap-md-4">
-          {Array(40)
-            .fill(0)
-            .map((_, index) => {
-              return (
-                <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-                  <MovieCard {...someObj} isGrid />
-                </div>
-              );
-            })}
+          {filterMoviesStatus === "success"
+            ? filterMovies.map((item, index) => {
+                return (
+                  <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
+                    <MovieCard {...item} isGrid />
+                  </div>
+                );
+              })
+            : Array(20)
+                .fill(0)
+                .map((_) => {
+                  return (
+                    <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
+                      <MovieCardLoading isGrid />
+                    </div>
+                  );
+                })}
         </div>
       </div>
     </div>

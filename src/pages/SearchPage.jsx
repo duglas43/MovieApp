@@ -1,24 +1,58 @@
 import React from "react";
 import Search from "../components/Search";
-import { MiniMovieCard, MovieCard } from "../components";
-import SearchImg from "../assets/search-img.jpg";
-const someObj = {
-  backdrop_path: "/Aa9TLpNpBMyRkD8sPJ7ACKLjt0l.jpg",
-  first_air_date: "2022-08-21",
-  genre_ids: [10765, 18, 10759],
-  id: 94997,
-  name: "Дом Дракона",
-  origin_country: ["US"],
-  original_language: "en",
-  original_name: "House of the Dragon",
-  overview:
-    "Члены дома Таргариенов оставляют обречённую Валирию и отправляются на запад, где обнаруживают огромную территорию, населённую враждующими королевствами.",
-  popularity: 8735.731,
-  poster_path: "/emAFaKrAn1mhJ3ZQbM2503a1X2s.jpg",
-  vote_average: 8.6,
-  vote_count: 1255,
-};
+import qs from "qs";
+import { MiniMovieCard, MovieCard, MovieCardLoading } from "../components";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { selectFilter, setFilters } from "../redux/slices/filterSlice";
+import {
+  fetchSearchMovies,
+  fetchPopularMovies,
+  selectMovies,
+} from "../redux/slices/moviesSlice";
+
 function SearchPage() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
+  const { searchValue, page } = useSelector(selectFilter);
+  const {
+    searchMoviesStatus,
+    searchMovies,
+    popularMovies,
+    popularMoviesStatus,
+  } = useSelector(selectMovies);
+  React.useEffect(() => {
+    dispatch(fetchPopularMovies());
+  }, []);
+  // Парсинг параметров при первом рендере
+  React.useEffect(() => {
+    if (location.search) {
+      const params = qs.parse(location.search, {
+        ignoreQueryPrefix: true,
+      });
+      dispatch(setFilters({ ...params }));
+      isSearch.current = true;
+    }
+  }, []);
+  React.useEffect(() => {
+    if (!isSearch.current) {
+      dispatch(fetchSearchMovies({ searchValue, page }));
+    }
+    isSearch.current = false;
+  }, [searchValue, page]);
+  // Вшиваем параметры в адресную строку если это необходимо
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        searchValue,
+      });
+      navigate(`/search?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [searchValue]);
   return (
     <div>
       <div className="container-fluid px-5 ">
@@ -31,21 +65,39 @@ function SearchPage() {
 
         {/* <img src={SearchImg} alt="" className="rounded-3 w-100 " /> */}
         <div className="grid movie-grid gap-3 gap-md-4">
-          {Array(40)
-            .fill(0)
-            .map((_, index) => {
-              return (
-                <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-                  <MovieCard {...someObj} isGrid />
-                </div>
-              );
-            })}
+          {searchMoviesStatus === "success"
+            ? searchMovies.results?.map((item) => {
+                return (
+                  <div
+                    key={item.id}
+                    className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
+                  >
+                    <MovieCard {...item} isGrid />
+                  </div>
+                );
+              })
+            : Array(20)
+                .fill(0)
+                .map((_, index) => (
+                  <div
+                    key={index}
+                    className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
+                  >
+                    <MovieCardLoading isGrid />
+                  </div>
+                ))}
         </div>
         <div className="right-bar border border-danger">
           <div className="right-bar__trending">
             <p className="title__text mb-4">Вам может понравиться</p>
             <ul className="right-bar__trending-list">
-              {Array(10).fill(<MiniMovieCard />)}
+              {popularMoviesStatus === "success"
+                ? popularMovies
+                    .slice(0, 4)
+                    .map((item) => <MiniMovieCard {...item} key={item.id} />)
+                : Array(5)
+                    .fill(0)
+                    .map((_, index) => <MovieCardLoading isMini />)}
             </ul>
           </div>
         </div>
