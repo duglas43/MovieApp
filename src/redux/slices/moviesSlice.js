@@ -9,7 +9,7 @@ export const fetchMainSliderItems = createAsyncThunk(
       `https://api.themoviedb.org/3/trending/movie/day?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&page=1`
     );
 
-    return data;
+    return data.results;
   }
 );
 export const fetchPopularMovies = createAsyncThunk(
@@ -46,7 +46,7 @@ export const fetchFilterMovies = createAsyncThunk(
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/discover/movie?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&sort_by=${sortBy}&with_genres=${genres}&with_runtime.lte=${runtimeLte}&query=${searchValue}&page=${page}`
     );
-    return data.results;
+    return data;
   }
 );
 export const fetchSearchMovies = createAsyncThunk(
@@ -84,7 +84,7 @@ const moviesSlice = createSlice({
       state.mainSliderItems = [];
     },
     [fetchMainSliderItems.fulfilled]: (state, action) => {
-      state.mainSliderItems = action.payload.results;
+      state.mainSliderItems = action.payload;
       state.mainSliderStatus = "success";
     },
     [fetchMainSliderItems.rejected]: (state, action) => {

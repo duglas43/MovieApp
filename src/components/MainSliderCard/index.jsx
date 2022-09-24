@@ -15,7 +15,7 @@ function SliderCard({
     <div
       className="slider-card rounded-2 ps-4 ps-lg-5 pt-1 "
       style={{
-        backgroundImage: `linear-gradient(to right, black 0%, transparent 120%),url(${`https://image.tmdb.org/t/p/w1280${backdrop_path}`})`,
+        backgroundImage: `linear-gradient(to right, black 0%, transparent 120%),url(${`https://image.tmdb.org/t/p/w1280${backdrop_path}`}), url("https://via.placeholder.com/1280x720/333335/?text=no+image+):")`,
       }}
     >
       <div className="slider-card__rating rounded-5 d-none d-sm-flex">

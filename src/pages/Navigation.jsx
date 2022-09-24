@@ -1,5 +1,11 @@
 import React from "react";
-import { MovieCard, FilterBar, Search, MovieCardLoading } from "../components";
+import {
+  MovieCard,
+  FilterBar,
+  Search,
+  MovieCardLoading,
+  MyPagination,
+} from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
@@ -8,8 +14,9 @@ import {
   selectFilter,
   setFilters,
   setSearchValue,
+  setPage,
 } from "../redux/slices/filterSlice";
-import { setPage } from "../redux/slices/UiSlice";
+import { setPagePath } from "../redux/slices/UiSlice";
 
 function Navigation() {
   const dispatch = useDispatch();
@@ -26,8 +33,13 @@ function Navigation() {
       navigate("/search");
     }
   };
+  const onPaginateClick = (page) => {
+    dispatch(setPage(page));
+  };
+
   React.useEffect(() => {
     dispatch(setSearchValue(""));
+    dispatch(setPagePath("navigation"));
   }, []);
   // Если есть поисковый запрос, то делаем диспатч на фильтры
   React.useEffect(() => {
@@ -50,7 +62,6 @@ function Navigation() {
           page,
         })
       );
-      window.scrollTo(0, 0);
     }
     isSearch.current = false;
   }, [sortBy, genres, runtimeLte, page]);
@@ -61,11 +72,12 @@ function Navigation() {
         sortBy,
         genres,
         runtimeLte,
+        page,
       });
       navigate(`/navigation?${queryString}`);
     }
     isMounted.current = true;
-  }, [sortBy, genres, runtimeLte]);
+  }, [sortBy, genres, runtimeLte, page]);
   return (
     <div>
       <div className="container-fluid px-4 ">
@@ -77,12 +89,12 @@ function Navigation() {
             <Search />
           </p>
         </div>
-        <div className="right-bar border border-danger right-bar--dynamic">
+        <div className="right-bar right-bar--dynamic">
           <FilterBar />
         </div>
-        <div className="grid movie-grid gap-3 gap-md-4">
+        <div className="grid movie-grid gap-3 gap-md-4 mb-2">
           {filterMoviesStatus === "success"
-            ? filterMovies.map((item, index) => {
+            ? filterMovies.results?.map((item, index) => {
                 return (
                   <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
                     <MovieCard {...item} isGrid />
@@ -98,6 +110,13 @@ function Navigation() {
                     </div>
                   );
                 })}
+        </div>
+        <div className="d-flex justify-content-center mb-4">
+          <MyPagination
+            count={filterMovies.total_pages}
+            page={page}
+            onChange={onPaginateClick}
+          />
         </div>
       </div>
     </div>

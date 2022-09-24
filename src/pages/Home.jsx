@@ -13,9 +13,8 @@ import {
   MovieCardLoading,
   MainSliderCardLoading,
 } from "../components/";
-
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   fetchMainSliderItems,
   fetchPopularMovies,
@@ -24,7 +23,7 @@ import {
   selectMovies,
 } from "../redux/slices/moviesSlice";
 import { setGenre, genreList, clearFilters } from "../redux/slices/filterSlice";
-import { setPage } from "../redux/slices/UiSlice";
+import { setPagePath } from "../redux/slices/UiSlice";
 
 function Home() {
   const dispatch = useDispatch();
@@ -42,12 +41,10 @@ function Home() {
 
   const onGenreClick = (genreId) => {
     dispatch(setGenre(genreId));
-    dispatch(setPage("navigation"));
     navigate("/navigation");
   };
   const searchHandler = (e) => {
     if (e.key === "Enter") {
-      dispatch(setPage("navigation"));
       navigate("/search");
     }
   };
@@ -61,7 +58,7 @@ function Home() {
     dispatch(fetchUpcomingMovies());
   }, []);
   return (
-    <div className="container-fluid px-xl-4">
+    <div className="container-fluid px-xl-4 pb-5">
       <div className="mt-5">
         {mainSliderStatus === "success" ? (
           <Swiper
@@ -121,7 +118,7 @@ function Home() {
       ) : (
         <MovieCardLoading />
       )}
-      <div className="right-bar border border-danger">
+      <div className="right-bar">
         <p onKeyDown={searchHandler}>
           <Search />
         </p>
@@ -139,10 +136,10 @@ function Home() {
             );
           })}
         </ul>
-        <div className="right-bar__trending mt-4">
+        <div className="mt-4">
           <p className="title__text mb-4">Популярные</p>
 
-          <ul className="right-bar__trending-list">
+          <ul>
             {popularMoviesStatus === "success" ? (
               popularMovies.slice(0, 2).map((item) => {
                 return <MiniMovieCard {...item} key={item.id} />;
@@ -157,7 +154,7 @@ function Home() {
         </div>
 
         <div className="tag right-bar__btn w-100 rounded-5 mt-3" role="button">
-          See more
+          <Link to="/navigation">See more</Link>
         </div>
       </div>
     </div>

@@ -39,6 +39,9 @@ const filterSlice = createSlice({
     setPage(state, action) {
       state.page = action.payload;
     },
+    incrementPage(state) {
+      state.page += 1;
+    },
     setFilters(state, action) {
       if (Object.keys(action.payload).length) {
         state.searchValue = action.payload.searchValue || state.searchValue;
@@ -51,7 +54,7 @@ const filterSlice = createSlice({
         state.dateLte = action.payload.dateLte || state.dateLte;
         state.runtimeLte =
           Number(action.payload.runtimeLte) || state.runtimeLte;
-        state.page = action.payload.page || state.page;
+        state.page = Number(action.payload.page) || state.page;
       } else {
         state.searchValue = "";
         state.sortBy = "popularity.desc";
@@ -176,5 +179,6 @@ export const {
   setFilters,
   setPage,
   clearFilters,
+  incrementPage,
 } = filterSlice.actions;
 export default filterSlice.reducer;

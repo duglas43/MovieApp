@@ -6,13 +6,11 @@ import {
   setMiniSideBar,
   setActiveSideBar,
   setActivePageId,
-  pageList,
 } from "../redux/slices/UiSlice";
 import { SideBar } from "../components";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 function MainLayout() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const activePageId = useSelector(({ UiSlice }) => UiSlice.activePageId);
   const { sideBarMobileActive, sideBarMini } = useSelector(
     ({ UiSlice }) => UiSlice
@@ -26,17 +24,6 @@ function MainLayout() {
   const onBurgerClick = () => {
     dispatch(setActiveSideBar(!sideBarMobileActive));
   };
-
-  // Отправка данных о активной странице в Redux при первом рендере
-  React.useEffect(() => {
-    const id = pageList.find(
-      (item) => item.type === location.pathname.slice(1)
-    )?.id;
-    if (location.pathname.slice(1)) {
-      dispatch(setActivePageId(id));
-      dispatch(setMiniSideBar(true));
-    }
-  }, []);
 
   return (
     <div>

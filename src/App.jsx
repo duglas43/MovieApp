@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<MainLayout />}>
+          <Route path="/MovieApp" element={<Home />} />
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/navigation" element={<Navigation />} />

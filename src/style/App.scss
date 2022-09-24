@@ -82,7 +82,7 @@ body::-webkit-scrollbar-thumb {
 // Основной контент
 .main {
   width: 100%;
-  border: 2px solid red;
+  border: 2px solid transparent;
 
   // Левое меню исчезло
   @media screen and (min-width: 1200px) {
@@ -204,4 +204,21 @@ body::-webkit-scrollbar-thumb {
 .swiper-button-next {
   top: 30px;
   left: 40px;
+}
+
+.MuiPaginationItem-root {
+  color: $light-text  !important;
+}
+
+.MuiButtonBase-root {
+  color: $light-text  !important;
+  background-color: $dark-grey  !important;
+}
+
+.MuiButtonBase-root[aria-current=true] {
+  background-color: $blue  !important;
+}
+
+.MuiPagination-ul {
+  flex-wrap: nowrap;
 }

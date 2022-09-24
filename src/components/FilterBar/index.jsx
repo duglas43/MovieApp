@@ -8,6 +8,7 @@ import {
   setRuntimeLte,
   genreList,
   sortList,
+  setPage,
 } from "../../redux/slices/filterSlice";
 import { debounce } from "lodash";
 
@@ -23,9 +24,11 @@ function FilterBar() {
   const onSortClick = (type) => {
     const sortByName = sortList.find((item) => item.type === type).name;
     dispatch(setSortBy({ type, name: sortByName }));
+    dispatch(setPage(1));
   };
   const onGenreClick = (id) => {
     dispatch(setGenre(id));
+    dispatch(setPage(1));
   };
   const changeRuntime = React.useCallback(
     debounce((str) => {
@@ -36,6 +39,7 @@ function FilterBar() {
   const onChangeRuntime = (e) => {
     setRuntimeValue(e.target.value);
     changeRuntime(e.target.value);
+    dispatch(setPage(1));
   };
   return (
     <div>

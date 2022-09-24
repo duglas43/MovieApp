@@ -19,7 +19,7 @@ const Ui = createSlice({
     setActivePageId(state, action) {
       state.activePageId = action.payload;
     },
-    setPage(state, action) {
+    setPagePath(state, action) {
       const id = pageList.find((item) => item.type === action.payload)?.id;
       state.activePageId = id;
       id ? (state.sideBarMini = true) : (state.sideBarMini = false);
@@ -53,6 +53,10 @@ export const pageList = [
     type: "history",
   },
 ];
-export const { setActiveSideBar, setMiniSideBar, setActivePageId, setPage } =
-  Ui.actions;
+export const {
+  setActiveSideBar,
+  setMiniSideBar,
+  setActivePageId,
+  setPagePath,
+} = Ui.actions;
 export default Ui.reducer;
