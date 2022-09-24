@@ -20,6 +20,11 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
+body,
+html {
+  background-color: rgb(28, 28, 30);
+}
+
 .App {
   background-color: rgb(28, 28, 30);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -82,7 +87,7 @@ body::-webkit-scrollbar-thumb {
 // Основной контент
 .main {
   width: 100%;
-  border: 2px solid transparent;
+  // border: 2px solid transparent;
 
   // Левое меню исчезло
   @media screen and (min-width: 1200px) {
@@ -220,5 +225,5 @@ body::-webkit-scrollbar-thumb {
 }
 
 .MuiPagination-ul {
-  flex-wrap: nowrap;
+  flex-wrap: nowrap !important;
 }

@@ -50,6 +50,7 @@ function Home() {
   };
   React.useEffect(() => {
     dispatch(clearFilters());
+    dispatch(setPagePath("home"));
   }, []);
   React.useEffect(() => {
     dispatch(fetchMainSliderItems());
@@ -57,6 +58,61 @@ function Home() {
     dispatch(fetchTopRatedMovies());
     dispatch(fetchUpcomingMovies());
   }, []);
+
+  const popularSlider = popularMovies && (
+    <Slider
+      listTitle={"Популярное"}
+      slideList={popularMovies.map((item) => (
+        <Link to={`/movie/${item.id}`} key={item.id}>
+          <MovieCard {...item} />
+        </Link>
+      ))}
+    />
+  );
+  const topRatedSlider = topRatedMovies && (
+    <Slider
+      listTitle={"С высоким рейтингом"}
+      slideList={topRatedMovies.map((item) => (
+        <Link to={`/movie/${item.id}`} key={item.id}>
+          <MovieCard {...item} />
+        </Link>
+      ))}
+    />
+  );
+  const upComingSlider = upcomingMovies && (
+    <Slider
+      listTitle={"Предстоящие"}
+      slideList={upcomingMovies.map((item) => (
+        <Link to={`/movie/${item.id}`} key={item.id}>
+          <MovieCard {...item} />
+        </Link>
+      ))}
+    />
+  );
+  const popularSceleton = (
+    <Slider
+      listTitle={"Популярное"}
+      slideList={Array(10).map((_, index) => (
+        <MovieCardLoading key={index} />
+      ))}
+    />
+  );
+  const topRatedSceleton = (
+    <Slider
+      listTitle={"С высоким рейтингом"}
+      slideList={Array(10).map((_, index) => (
+        <MovieCardLoading key={index} />
+      ))}
+    />
+  );
+  const upComingScelton = (
+    <Slider
+      listTitle={"Предстоящие"}
+      slideList={Array(10).map((_, index) => (
+        <MovieCardLoading key={index} />
+      ))}
+    />
+  );
   return (
     <div className="container-fluid px-xl-4 pb-5">
       <div className="mt-5">
@@ -71,91 +127,68 @@ function Home() {
               disableOnInteraction: false,
             }}
           >
-            {mainSliderItems.map((item, index) => {
-              return (
-                <SwiperSlide key={item.id}>
-                  <div className="slider-card__wrapper">
+            {mainSliderItems.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div className="slider-card__wrapper">
+                  <Link to={`/movie/${item.id}`} className="text-white">
                     <MainSliderCard {...item} />
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         ) : (
           <MainSliderCardLoading />
         )}
       </div>
 
-      {popularMoviesStatus === "success" ? (
-        <Slider
-          listTitle={"Популярное"}
-          slideList={popularMovies?.map((item) => (
-            <MovieCard key={item.id} {...item} />
-          ))}
-        />
-      ) : (
-        <MovieCardLoading />
-      )}
+      {popularMoviesStatus === "success" ? popularSlider : popularSceleton}
 
-      {topRatedMoviesStatus === "success" ? (
-        <Slider
-          listTitle={"С высоким рейтингом"}
-          slideList={topRatedMovies?.map((item) => (
-            <MovieCard key={item.id} {...item} />
-          ))}
-        />
-      ) : (
-        <MovieCardLoading />
-      )}
+      {topRatedMoviesStatus === "success" ? topRatedSlider : topRatedSceleton}
 
-      {upcomingMoviesStatus === "success" ? (
-        <Slider
-          listTitle={"Предстоящие"}
-          slideList={upcomingMovies?.map((item) => (
-            <MovieCard key={item.id} {...item} />
-          ))}
-        />
-      ) : (
-        <MovieCardLoading />
-      )}
+      {upcomingMoviesStatus === "success" ? upComingSlider : upComingScelton}
       <div className="right-bar">
-        <p onKeyDown={searchHandler}>
+        <div onKeyDown={searchHandler}>
           <Search />
-        </p>
+        </div>
         <ul className="tag-list mt-3 d-flex flex-wrap">
-          {genreList.slice(0, 6).map((item) => {
-            return (
-              <li
-                className="tag rounded-5 px-3 py-2 mb-2 me-2"
-                role="button"
-                key={item.id}
-                onClick={() => onGenreClick(item.id)}
-              >
-                {item.name}
-              </li>
-            );
-          })}
+          {genreList.slice(0, 6).map((item) => (
+            <li
+              className="tag rounded-5 px-3 py-2 mb-2 me-2"
+              role="button"
+              key={item.id}
+              onClick={() => onGenreClick(item.id)}
+            >
+              {item.name}
+            </li>
+          ))}
         </ul>
         <div className="mt-4">
           <p className="title__text mb-4">Популярные</p>
 
           <ul>
             {popularMoviesStatus === "success" ? (
-              popularMovies.slice(0, 2).map((item) => {
-                return <MiniMovieCard {...item} key={item.id} />;
-              })
+              popularMovies.slice(0, 2).map((item) => (
+                <Link to={`/movie/${item.id}`} className="text-white">
+                  <MiniMovieCard {...item} key={item.id} />
+                </Link>
+              ))
             ) : (
-              <p>
+              <div>
                 <MovieCardLoading isMini />
                 <MovieCardLoading isMini />
-              </p>
+              </div>
             )}
           </ul>
         </div>
-
-        <div className="tag right-bar__btn w-100 rounded-5 mt-3" role="button">
-          <Link to="/navigation">See more</Link>
-        </div>
+        <Link to="/navigation">
+          <div
+            className="tag right-bar__btn w-100 rounded-5 mt-3"
+            role="button"
+          >
+            See more
+          </div>
+        </Link>
       </div>
     </div>
   );

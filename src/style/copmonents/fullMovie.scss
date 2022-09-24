@@ -1,0 +1,63 @@
+@import "../variables";
+
+.fullMovie-back {
+  height: 400px;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: relative;
+
+  @media screen and(max-width:768px) {
+    height: 300px;
+  }
+}
+
+.fullMovie-container {
+  padding-top: 400px;
+
+  @media screen and(max-width:768px) {
+    padding-top: 300px;
+  }
+}
+
+.fullMovie-title-lg {
+  position: absolute;
+  max-width: 60%;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+}
+
+.fullMovie-title {
+  font-size: 60px;
+
+  @media screen and(max-width:768px) {
+    font-size: 40px;
+
+  }
+}
+
+.fullMovie-rating {
+  width: 80px;
+}
+
+.fullMovie-row {
+  min-height: 400px;
+}
+
+.fullMovie-trailer {
+  width: 100%;
+}
+
+.fullMovie-info {
+  border-right: 1px solid rgba(229, 231, 235, 0.5);
+  border-left: 1px solid rgba(229, 231, 235, 0.5);
+
+  @media screen and (max-width:768px) {
+    border: none;
+  }
+}

@@ -6,5 +6,6 @@ export { default as MovieCardLoading } from "./MovieCard/Sceleton";
 export { default as Search } from "./Search";
 export { default as Slider } from "./Slider";
 export { default as FilterBar } from "./FilterBar";
+export { default as PopularBar } from "./PopularBar";
 export { default as MiniMovieCard } from "./MovieCard/MiniMovieCard";
 export { default as MyPagination } from "./Pagination";

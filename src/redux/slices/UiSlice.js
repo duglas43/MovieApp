@@ -59,4 +59,5 @@ export const {
   setActivePageId,
   setPagePath,
 } = Ui.actions;
+export const selectUi = (state) => state.UiSlice;
 export default Ui.reducer;

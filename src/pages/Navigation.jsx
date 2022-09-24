@@ -7,7 +7,7 @@ import {
   MyPagination,
 } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import qs from "qs";
 import { fetchFilterMovies, selectMovies } from "../redux/slices/moviesSlice";
 import {
@@ -41,7 +41,6 @@ function Navigation() {
     dispatch(setSearchValue(""));
     dispatch(setPagePath("navigation"));
   }, []);
-  // Если есть поисковый запрос, то делаем диспатч на фильтры
   React.useEffect(() => {
     if (location.search) {
       const params = qs.parse(location.search, {
@@ -78,6 +77,23 @@ function Navigation() {
     }
     isMounted.current = true;
   }, [sortBy, genres, runtimeLte, page]);
+
+  const movies =
+    filterMovies.results &&
+    filterMovies.results.map((item, index) => (
+      <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4" key={item.id}>
+        <Link to={`/movie/${item.id}`}>
+          <MovieCard {...item} isGrid />
+        </Link>
+      </div>
+    ));
+  const sceletons = Array(20)
+    .fill(0)
+    .map((_, index) => (
+      <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4" key={index}>
+        <MovieCardLoading isGrid />
+      </div>
+    ));
   return (
     <div>
       <div className="container-fluid px-4 ">
@@ -85,31 +101,15 @@ function Navigation() {
           <p className="navigation__title text-white fs-2 text-uppercase">
             Найди лучшие фильмы
           </p>
-          <p className="d-none d-md-block" onKeyDown={onSearchEnter}>
+          <div className="d-none d-md-block" onKeyDown={onSearchEnter}>
             <Search />
-          </p>
+          </div>
         </div>
         <div className="right-bar right-bar--dynamic">
           <FilterBar />
         </div>
         <div className="grid movie-grid gap-3 gap-md-4 mb-2">
-          {filterMoviesStatus === "success"
-            ? filterMovies.results?.map((item, index) => {
-                return (
-                  <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-                    <MovieCard {...item} isGrid />
-                  </div>
-                );
-              })
-            : Array(20)
-                .fill(0)
-                .map((_) => {
-                  return (
-                    <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-                      <MovieCardLoading isGrid />
-                    </div>
-                  );
-                })}
+          {filterMoviesStatus === "success" ? movies : sceletons}
         </div>
         <div className="d-flex justify-content-center mb-4">
           <MyPagination

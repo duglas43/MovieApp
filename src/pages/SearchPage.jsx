@@ -8,6 +8,7 @@ import {
   MovieCardLoading,
   MyPagination,
   Search,
+  PopularBar,
 } from "../components";
 import placeholderImg from "../assets/search-img.jpg";
 import { selectFilter, setFilters, setPage } from "../redux/slices/filterSlice";
@@ -20,17 +21,12 @@ import { setPagePath } from "../redux/slices/UiSlice";
 
 function SearchResult() {
   const { searchMoviesStatus, searchMovies } = useSelector(selectMovies);
-  if (searchMoviesStatus === "success") {
-    return searchMovies.results?.map((item) => {
-      return (
-        <div
-          key={item.id}
-          className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
-        >
-          <MovieCard {...item} isGrid />
-        </div>
-      );
-    });
+  if (searchMoviesStatus === "success" && searchMovies.results.length > 0) {
+    return searchMovies.results.map((item) => (
+      <div key={item.id} className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
+        <MovieCard {...item} isGrid />
+      </div>
+    ));
   }
   return Array(20)
     .fill(0)
@@ -64,7 +60,6 @@ function SearchPage() {
     dispatch(fetchPopularMovies());
     dispatch(setPagePath("search"));
   }, []);
-  // Парсинг параметров при первом рендере
   React.useEffect(() => {
     if (location.search) {
       const params = qs.parse(location.search, {
@@ -75,21 +70,21 @@ function SearchPage() {
     }
   }, []);
   React.useEffect(() => {
-    if (!isSearch.current) {
+    if (!isSearch.current && isMounted.current) {
       dispatch(fetchSearchMovies({ searchValue, page }));
     }
     isSearch.current = false;
   }, [searchValue, page]);
-  // Вшиваем параметры в адресную строку если это необходимо
   React.useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
         searchValue,
+        page,
       });
       navigate(`/search?${queryString}`);
     }
     isMounted.current = true;
-  }, [searchValue]);
+  }, [searchValue, page]);
   return (
     <div>
       <div className="container-fluid px-5 ">
@@ -107,7 +102,12 @@ function SearchPage() {
                 "фильма",
                 "фильмов",
               ])}{" "}
-              найдено)
+              {declOfNum(searchMovies.total_results, [
+                "найден",
+                "найдено",
+                "найдено",
+              ])}
+              )
             </p>
           )}
         </div>
@@ -118,20 +118,7 @@ function SearchPage() {
         ) : (
           <img src={placeholderImg} alt="" className="rounded-3 w-100 " />
         )}
-        <div className="right-bar">
-          <div className="right-bar__trending">
-            <p className="title__text mb-4">Вам может понравиться</p>
-            <ul className="right-bar__trending-list">
-              {popularMoviesStatus === "success"
-                ? popularMovies
-                    .slice(0, 4)
-                    .map((item) => <MiniMovieCard {...item} key={item.id} />)
-                : Array(5)
-                    .fill(0)
-                    .map((_, index) => <MovieCardLoading isMini />)}
-            </ul>
-          </div>
-        </div>
+        <PopularBar movies={popularMovies} status={popularMoviesStatus} />
         <div className="d-flex justify-content-center mb-4">
           {searchValue && (
             <MyPagination

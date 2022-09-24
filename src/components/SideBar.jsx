@@ -60,15 +60,17 @@ function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
     >
       <div className="aside__inner">
         <ul>
-          <li className="logo mb-5 d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faClapperboard}
-              size="2x"
-              className="text-white me-2 logo__img"
-            />
-            <div className="logo__text text-uppercase text-white">
-              Movie<span className="text-primary">Site</span>
-            </div>
+          <li>
+            <Link to="/" className="logo mb-5 d-flex align-items-center">
+              <FontAwesomeIcon
+                icon={faClapperboard}
+                size="2x"
+                className="text-white me-2 logo__img"
+              />
+              <div className="logo__text text-uppercase text-white">
+                Movie<span className="text-primary">Site</span>
+              </div>
+            </Link>
           </li>
           {sideBarList.map((item, index) => {
             return (
@@ -93,11 +95,22 @@ function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
           })}
         </ul>
         <div className="aside__settings">
-          <div className="aside__item dynamic-text">
+          <div className="aside__item dynamic-text mb-3">
             <FontAwesomeIcon className="aside__item-img" icon={faGear} />
             <button className="aside__button" type="button">
               Настройки
             </button>
+          </div>
+          <div className="aside__item dynamic-text mb-4">
+            <a
+              target={"_blank"}
+              rel="noreferrer"
+              href="https://github.com/duglas43"
+              className="d-flex"
+            >
+              <i className="aside__item-img  bx bxl-github"></i>
+              <p className="aside__button">Dev Duglas43</p>
+            </a>
           </div>
         </div>
       </div>

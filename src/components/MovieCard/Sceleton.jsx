@@ -7,17 +7,17 @@ function Sceleton({ isGrid, isMini }) {
   if (isMini) {
     return (
       <SkeletonTheme duration={3} baseColor="#333335" highlightColor="#989898">
-        <p>
+        <div>
           <Skeleton className={`${styles["sceleton-mini"]} mb-3`} />
-        </p>
+        </div>
       </SkeletonTheme>
     );
   }
   return (
     <SkeletonTheme duration={3} baseColor="#333335" highlightColor="#989898">
-      <p>
+      <div>
         <Skeleton className={`${styles.card} ${isGrid ? styles.h262 : ""}`} />
-      </p>
+      </div>
     </SkeletonTheme>
   );
 }

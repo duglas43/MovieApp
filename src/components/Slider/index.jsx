@@ -1,11 +1,27 @@
 import React from "react";
 import Slider from "react-slick";
-import { MovieCard } from ".././index";
 import rightArrow from "../../assets/right-arrow.svg";
 import leftArrow from "../../assets/left-arrow.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+function PrevArrow({ currentSlide, slideCount, ...props }) {
+  return (
+    <button {...props}>
+      <div className="prev-slick-arrow">
+        <img src={leftArrow} alt="" width={30} height={30} />
+      </div>
+    </button>
+  );
+}
+function NextArrow({ currentSlide, slideCount, ...props }) {
+  return (
+    <button {...props}>
+      <div className="next-slick-arrow">
+        <img src={rightArrow} alt="" width={30} height={30} />
+      </div>
+    </button>
+  );
+}
 function MySlider({ slideList, listTitle }) {
   const settings = {
     className: "slider variable-width",
@@ -13,20 +29,8 @@ function MySlider({ slideList, listTitle }) {
     slidesToShow: 1,
     slidesToScroll: 3,
     variableWidth: true,
-    nextArrow: (
-      <div>
-        <div className="next-slick-arrow">
-          <img src={rightArrow} alt="" width={30} height={30} />
-        </div>
-      </div>
-    ),
-    prevArrow: (
-      <div>
-        <div className="prev-slick-arrow">
-          <img src={leftArrow} alt="" width={30} height={30} />
-        </div>
-      </div>
-    ),
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 576,
