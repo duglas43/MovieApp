@@ -21,12 +21,12 @@ function FilterBar() {
   const [filterOpen, setFilterOpen] = React.useState(true);
   const [runtimeValue, setRuntimeValue] = React.useState(runtimeLte);
 
-  const onSortClick = (type) => {
+  const onSortClick = (type: string) => {
     const sortByName = sortList.find((item) => item.type === type).name;
     dispatch(setSortBy({ type, name: sortByName }));
     dispatch(setPage(1));
   };
-  const onGenreClick = (id) => {
+  const onGenreClick = (id: number) => {
     dispatch(setGenre(id));
     dispatch(setPage(1));
   };
@@ -36,8 +36,8 @@ function FilterBar() {
     }, 150),
     []
   );
-  const onChangeRuntime = (e) => {
-    setRuntimeValue(e.target.value);
+  const onChangeRuntime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRuntimeValue(Number(e.target.value));
     changeRuntime(e.target.value);
     dispatch(setPage(1));
   };

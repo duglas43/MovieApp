@@ -16,7 +16,7 @@ function MainLayout() {
     ({ UiSlice }) => UiSlice
   );
   // Функция для изменения активной страницы
-  const changeActivePage = (id) => {
+  const changeActivePage = (id: number) => {
     dispatch(setActivePageId(id));
     id ? dispatch(setMiniSideBar(true)) : dispatch(setMiniSideBar(false));
   };

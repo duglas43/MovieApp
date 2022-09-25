@@ -3,7 +3,6 @@ import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  MiniMovieCard,
   MovieCard,
   MovieCardLoading,
   MyPagination,
@@ -19,25 +18,40 @@ import {
 } from "../redux/slices/moviesSlice";
 import { setPagePath } from "../redux/slices/UiSlice";
 
-function SearchResult() {
+const SearchResult: React.FC = () => {
   const { searchMoviesStatus, searchMovies } = useSelector(selectMovies);
   if (searchMoviesStatus === "success" && searchMovies.results.length > 0) {
-    return searchMovies.results.map((item) => (
-      <div key={item.id} className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-        <MovieCard {...item} isGrid />
-      </div>
-    ));
+    return (
+      <>
+        {searchMovies.results.map((item) => (
+          <div
+            key={item.id}
+            className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
+          >
+            <MovieCard {...item} isGrid />
+          </div>
+        ))}
+      </>
+    );
+  } else {
+    return (
+      <>
+        {Array(20)
+          .fill(0)
+          .map((_, index) => (
+            <div
+              key={index}
+              className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
+            >
+              <MovieCardLoading isGrid />
+            </div>
+          ))}
+      </>
+    );
   }
-  return Array(20)
-    .fill(0)
-    .map((_, index) => (
-      <div key={index} className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4">
-        <MovieCardLoading isGrid />
-      </div>
-    ));
-}
+};
 function SearchPage() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const location = useLocation();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
@@ -46,10 +60,10 @@ function SearchPage() {
   const { searchMovies, popularMovies, popularMoviesStatus } =
     useSelector(selectMovies);
 
-  const onPaginateClick = (page) => {
+  const onPaginateClick = (page: number) => {
     dispatch(setPage(page));
   };
-  const declOfNum = (number, words) => {
+  const declOfNum = (number: number, words: string[]) => {
     return words[
       number % 100 > 4 && number % 100 < 20
         ? 2
@@ -125,7 +139,7 @@ function SearchPage() {
               count={searchMovies.total_pages}
               onChange={onPaginateClick}
               page={page}
-            />
+            ></MyPagination>
           )}
         </div>
       </div>

@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { RootState } from "../store";
 
 export const fetchMainSliderItems = createAsyncThunk(
   "mainSlider/fetchMainSliderItemsStatus",
@@ -9,7 +10,7 @@ export const fetchMainSliderItems = createAsyncThunk(
       `https://api.themoviedb.org/3/trending/movie/day?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&page=1`
     );
 
-    return data.results;
+    return data.results as MovieItem[];
   }
 );
 export const fetchPopularMovies = createAsyncThunk(
@@ -18,7 +19,7 @@ export const fetchPopularMovies = createAsyncThunk(
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/popular?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&page=1`
     );
-    return data.results;
+    return data.results as MovieItem[];
   }
 );
 export const fetchTopRatedMovies = createAsyncThunk(
@@ -27,7 +28,7 @@ export const fetchTopRatedMovies = createAsyncThunk(
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/top_rated?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&page=1`
     );
-    return data.results;
+    return data.results as MovieItem[];
   }
 );
 export const fetchUpcomingMovies = createAsyncThunk(
@@ -36,30 +37,74 @@ export const fetchUpcomingMovies = createAsyncThunk(
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/upcoming?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&page=1`
     );
-    return data.results;
+    return data.results as MovieItem[];
   }
 );
 export const fetchFilterMovies = createAsyncThunk(
   "movies/fetchFilterMoviesStatus",
-  async (params, thunkAPI) => {
+  async (params:FetchMovieArgs) => {
     const { searchValue, sortBy, genres, runtimeLte, page } = params;
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/discover/movie?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&sort_by=${sortBy}&with_genres=${genres}&with_runtime.lte=${runtimeLte}&query=${searchValue}&page=${page}`
     );
-    return data;
+    return data as fetchObj;
   }
 );
 export const fetchSearchMovies = createAsyncThunk(
   "movies/fetchSearchMoviesStatus",
-  async (params, thunkAPI) => {
+  async (params:FetchMovieArgs) => {
     const { searchValue, page } = params;
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/search/movie?api_key=a8a6fa2f944128e9712135bc3ca000b1&language=ru-RU&query=${searchValue}&page=${page}`
     );
-    return data;
+    return data as fetchObj;
   }
 );
-const initialState = {
+export type FetchMovieArgs = {
+  searchValue?: string;
+  sortBy?: string;
+  genres?: number[];
+  runtimeLte?: number;
+  page?: number;
+};
+export type MovieItem={
+  adult: Boolean,
+  backdrop_path:string;
+  genre_ids:number[];
+  id: number;
+  original_language: string;
+  original_title:string;
+  overview:string;
+  popularity: number,
+  poster_path: string;
+  release_date: string;
+  title:string;
+  video: Boolean;
+  vote_average: number;
+  vote_count: number;
+}
+type fetchObj={
+  page:number;
+  results: MovieItem[];
+  total_pages:number;
+  total_results:number;
+}
+type Status ="loading" | "success" | "error" 
+interface MoviesSliceState {
+  mainSliderItems: MovieItem[],
+  mainSliderStatus: Status, 
+  popularMovies: MovieItem[],
+  popularMoviesStatus: Status, 
+  topRatedMovies: MovieItem[],
+  topRatedMoviesStatus: Status, 
+  upcomingMovies: MovieItem[],
+  upcomingMoviesStatus: Status, 
+  filterMovies: fetchObj,
+  filterMoviesStatus: Status, 
+  searchMovies: fetchObj,
+  searchMoviesStatus: Status, 
+}
+const initialState:MoviesSliceState = {
   mainSliderItems: [],
   mainSliderStatus: "loading", // loading | success | error
   popularMovies: [],
@@ -68,9 +113,19 @@ const initialState = {
   topRatedMoviesStatus: "loading", // loading | success | error
   upcomingMovies: [],
   upcomingMoviesStatus: "loading", // loading | success | error
-  filterMovies: [],
+  filterMovies: {
+    page: 1,
+    results: [],
+    total_pages: 1,
+    total_results: 1,
+  },
   filterMoviesStatus: "loading", // loading | success | error
-  searchMovies: [],
+  searchMovies: {
+    page: 1,
+    results: [],
+    total_pages: 1,
+    total_results: 1,
+  },
   searchMoviesStatus: "loading", // loading | success | error
 };
 
@@ -78,80 +133,102 @@ const moviesSlice = createSlice({
   name: "movies",
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchMainSliderItems.pending]: (state) => {
+  extraReducers:(builder)=>{
+    builder.addCase(fetchMainSliderItems.pending, (state) => {
       state.mainSliderStatus = "loading";
       state.mainSliderItems = [];
-    },
-    [fetchMainSliderItems.fulfilled]: (state, action) => {
+    });
+
+    builder.addCase(fetchMainSliderItems.fulfilled, (state, action:PayloadAction<MovieItem[]> ) => {
       state.mainSliderItems = action.payload;
       state.mainSliderStatus = "success";
-    },
-    [fetchMainSliderItems.rejected]: (state, action) => {
+    });
+    builder.addCase(fetchMainSliderItems.rejected, (state) => {
       state.mainSliderStatus = "error";
       state.mainSliderItems = [];
-    },
-    [fetchPopularMovies.pending]: (state) => {
+    });
+    builder.addCase(fetchPopularMovies.pending, (state) => {
       state.popularMoviesStatus = "loading";
       state.popularMovies = [];
-    },
-    [fetchPopularMovies.fulfilled]: (state, action) => {
+    });
+    builder.addCase(fetchPopularMovies.fulfilled, (state, action:PayloadAction<MovieItem[]> ) => {
       state.popularMovies = action.payload;
       state.popularMoviesStatus = "success";
-    },
-    [fetchPopularMovies.rejected]: (state, action) => {
+    });
+    builder.addCase(fetchPopularMovies.rejected, (state) => {
       state.popularMoviesStatus = "error";
       state.popularMovies = [];
-    },
-    [fetchTopRatedMovies.pending]: (state) => {
+    });
+    builder.addCase(fetchTopRatedMovies.pending, (state) => {
       state.topRatedMoviesStatus = "loading";
       state.topRatedMovies = [];
-    },
-    [fetchTopRatedMovies.fulfilled]: (state, action) => {
+    });
+    builder.addCase(fetchTopRatedMovies.fulfilled, (state, action:PayloadAction<MovieItem[]> ) => {
       state.topRatedMovies = action.payload;
       state.topRatedMoviesStatus = "success";
-    },
-    [fetchTopRatedMovies.rejected]: (state, action) => {
+    });
+    builder.addCase(fetchTopRatedMovies.rejected, (state) => {
       state.topRatedMoviesStatus = "error";
       state.topRatedMovies = [];
-    },
-    [fetchUpcomingMovies.pending]: (state) => {
+    });
+    builder.addCase(fetchUpcomingMovies.pending, (state) => {
       state.upcomingMoviesStatus = "loading";
       state.upcomingMovies = [];
-    },
-    [fetchUpcomingMovies.fulfilled]: (state, action) => {
+    });
+    builder.addCase(fetchUpcomingMovies.fulfilled, (state, action:PayloadAction<MovieItem[]> ) => {
       state.upcomingMovies = action.payload;
       state.upcomingMoviesStatus = "success";
-    },
-    [fetchUpcomingMovies.rejected]: (state, action) => {
+    })
+    builder.addCase(fetchUpcomingMovies.rejected, (state) => {
       state.upcomingMoviesStatus = "error";
       state.upcomingMovies = [];
-    },
-    [fetchFilterMovies.pending]: (state) => {
+    });
+    builder.addCase(fetchFilterMovies.pending, (state) => {
       state.filterMoviesStatus = "loading";
-      state.filterMovies = [];
-    },
-    [fetchFilterMovies.fulfilled]: (state, action) => {
+      state.filterMovies = {
+        page: 1,
+        results: [],
+        total_pages: 1,
+        total_results: 1,
+      };
+    });
+    builder.addCase(fetchFilterMovies.fulfilled, (state, action ) => {
       state.filterMovies = action.payload;
       state.filterMoviesStatus = "success";
-    },
-    [fetchFilterMovies.rejected]: (state, action) => {
+    });
+    builder.addCase(fetchFilterMovies.rejected, (state) => {
       state.filterMoviesStatus = "error";
-      state.filterMovies = [];
-    },
-    [fetchSearchMovies.pending]: (state) => {
+      state.filterMovies = {
+        page: 1,
+        results: [],
+        total_pages: 1,
+        total_results: 1,
+      };
+    });
+    builder.addCase(fetchSearchMovies.pending, (state) => {
       state.searchMoviesStatus = "loading";
-      state.searchMovies = [];
-    },
-    [fetchSearchMovies.fulfilled]: (state, action) => {
+      state.searchMovies = {
+        page: 1,
+        results: [],
+        total_pages: 1,
+        total_results: 1,
+      };
+    });
+    builder.addCase(fetchSearchMovies.fulfilled, (state, action ) => {
       state.searchMovies = action.payload;
       state.searchMoviesStatus = "success";
-    },
-    [fetchSearchMovies.rejected]: (state, action) => {
+    });
+    builder.addCase(fetchSearchMovies.rejected, (state) => {
       state.searchMoviesStatus = "error";
-      state.searchMovies = [];
-    },
-  },
+      state.searchMovies = {
+        page: 1,
+        results: [],
+        total_pages: 1,
+        total_results: 1,
+      };
+    });
+  }
 });
-export const selectMovies = (state) => state.moviesSlice;
+
+export const selectMovies = (state:RootState) => state.moviesSlice;
 export default moviesSlice.reducer;

@@ -1,6 +1,11 @@
 import React from "react";
 import { Pagination } from "@mui/material";
-function MyPagination({ count, onChange, page }) {
+
+const MyPagination: React.FC<{
+  count: number;
+  onChange: Function;
+  page: number;
+}> = ({ count, onChange, page }) => {
   return (
     <Pagination
       count={count}
@@ -11,5 +16,5 @@ function MyPagination({ count, onChange, page }) {
       }}
     />
   );
-}
+};
 export default MyPagination;

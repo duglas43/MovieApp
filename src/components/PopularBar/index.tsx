@@ -1,7 +1,12 @@
 import React from "react";
 import { MiniMovieCard, MovieCardLoading } from "../../components/";
 import { Link } from "react-router-dom";
-function PopularBar({ status, movies }) {
+import { MovieItem } from "../../redux/slices/moviesSlice";
+type PopularBarProps = {
+  status: string;
+  movies: MovieItem[];
+};
+const PopularBar: React.FC<PopularBarProps> = ({ status, movies }) => {
   const movieList =
     movies &&
     movies.slice(0, 4).map((item) => (
@@ -22,6 +27,6 @@ function PopularBar({ status, movies }) {
       </div>
     </div>
   );
-}
+};
 
 export default PopularBar;

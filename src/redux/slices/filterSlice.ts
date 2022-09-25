@@ -1,6 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-const initialState = {
+interface filterSliceState {
+  searchValue: string;
+  sortBy: { type: string; name: string };
+  genres: number[];
+  dateLte: string;
+  dateGte: string;
+  runtimeLte: number;
+  page: number;
+}
+const initialState:filterSliceState = {
   searchValue: "",
   sortBy: { type: "popularity.desc", name: "Популярности" },
   genres: [],
@@ -46,10 +56,7 @@ const filterSlice = createSlice({
       if (Object.keys(action.payload).length) {
         state.searchValue = action.payload.searchValue || state.searchValue;
         state.sortBy = action.payload.sortBy || state.sortBy;
-        state.genres =
-          !action.payload.genres || action.payload.genres.length === 0
-            ? state.genres
-            : action.payload.genres.map(Number);
+        state.genres =action.payload.genres;
         state.dateGte = action.payload.dateGte || state.dateGte;
         state.dateLte = action.payload.dateLte || state.dateLte;
         state.runtimeLte =
@@ -57,8 +64,8 @@ const filterSlice = createSlice({
         state.page = Number(action.payload.page) || state.page;
       } else {
         state.searchValue = "";
-        state.sortBy = "popularity.desc";
-        state.genres = "";
+        state.sortBy = { type: "popularity.desc", name: "Популярности" };
+        state.genres = [];
         state.dateLte = "";
         state.dateGte = "";
         state.runtimeLte = 200;
@@ -76,7 +83,7 @@ const filterSlice = createSlice({
     },
   },
 });
-export const selectFilter = (state) => state.filterSlice;
+export const selectFilter = (state:RootState) => state.filterSlice;
 export const genreList = [
   {
     id: 28,
@@ -155,7 +162,10 @@ export const genreList = [
     name: "вестерн",
   },
 ];
-export const sortList = [
+export const sortList:{
+  type:string;
+  name:string;
+}[] = [
   {
     type: "popularity.desc",
     name: "Популярности",

@@ -44,7 +44,18 @@ const sideBarList = [
     type: "history",
   },
 ];
-function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
+type SideBarProps = {
+  isMini: Boolean;
+  isMobileActive: Boolean;
+  activePageId: Number;
+  onClick: Function;
+};
+const SideBar: React.FC<SideBarProps> = ({
+  isMini,
+  isMobileActive,
+  activePageId,
+  onClick,
+}) => {
   const dispatch = useDispatch();
   const onBackDropClick = () => {
     if (isMobileActive) {
@@ -116,6 +127,6 @@ function SideBar({ isMini, isMobileActive, activePageId, onClick }) {
       </div>
     </div>
   );
-}
+};
 
 export default SideBar;

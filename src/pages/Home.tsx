@@ -25,8 +25,8 @@ import {
 import { setGenre, genreList, clearFilters } from "../redux/slices/filterSlice";
 import { setPagePath } from "../redux/slices/UiSlice";
 
-function Home() {
-  const dispatch = useDispatch();
+const Home: React.FC = () => {
+  const dispatch = useDispatch<any>();
   const navigate = useNavigate();
   const {
     mainSliderItems,
@@ -39,11 +39,11 @@ function Home() {
     upcomingMoviesStatus,
   } = useSelector(selectMovies);
 
-  const onGenreClick = (genreId) => {
+  const onGenreClick = (genreId: number) => {
     dispatch(setGenre(genreId));
     navigate("/navigation");
   };
-  const searchHandler = (e) => {
+  const searchHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       navigate("/search");
     }
@@ -169,7 +169,11 @@ function Home() {
           <ul>
             {popularMoviesStatus === "success" ? (
               popularMovies.slice(0, 2).map((item) => (
-                <Link to={`/movie/${item.id}`} className="text-white">
+                <Link
+                  to={`/movie/${item.id}`}
+                  key={item.id}
+                  className="text-white"
+                >
                   <MiniMovieCard {...item} key={item.id} />
                 </Link>
               ))
@@ -192,6 +196,6 @@ function Home() {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

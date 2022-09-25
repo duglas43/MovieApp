@@ -1,7 +1,18 @@
 import React from "react";
 // import movieCardImg from "../../assets/movieCard.jpg";
 import styles from "./MovieCard.module.scss";
-function MovieCard({ isGrid, poster_path, title, vote_average }) {
+export type MovieCardProps = {
+  isGrid?: Boolean;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+};
+const MovieCard: React.FC<MovieCardProps> = ({
+  isGrid,
+  poster_path,
+  title,
+  vote_average,
+}) => {
   const [imgSrc, setImgSrc] = React.useState(
     `https://image.tmdb.org/t/p/w500${poster_path}`
   );
@@ -28,6 +39,6 @@ function MovieCard({ isGrid, poster_path, title, vote_average }) {
       <div className={styles.title}>{title}</div>
     </div>
   );
-}
+};
 
 export default MovieCard;

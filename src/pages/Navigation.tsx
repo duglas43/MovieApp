@@ -9,7 +9,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import qs from "qs";
-import { fetchFilterMovies, selectMovies } from "../redux/slices/moviesSlice";
+import {
+  fetchFilterMovies,
+  FetchMovieArgs,
+  selectMovies,
+} from "../redux/slices/moviesSlice";
 import {
   selectFilter,
   setFilters,
@@ -19,7 +23,7 @@ import {
 import { setPagePath } from "../redux/slices/UiSlice";
 
 function Navigation() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const location = useLocation();
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
@@ -27,13 +31,13 @@ function Navigation() {
   const { sortBy, genres, runtimeLte, page } = useSelector(selectFilter);
   const { filterMovies, filterMoviesStatus } = useSelector(selectMovies);
 
-  const onSearchEnter = (e) => {
+  const onSearchEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       dispatch(setPage("search"));
       navigate("/search");
     }
   };
-  const onPaginateClick = (page) => {
+  const onPaginateClick = (page: number) => {
     dispatch(setPage(page));
   };
 
@@ -43,9 +47,10 @@ function Navigation() {
   }, []);
   React.useEffect(() => {
     if (location.search) {
-      const params = qs.parse(location.search, {
+      const params: FetchMovieArgs | any = qs.parse(location.search, {
         ignoreQueryPrefix: true,
       });
+      params.genres = params.genres ? params.genres.map(Number) : [];
       dispatch(setFilters({ ...params }));
       isSearch.current = true;
     }
@@ -56,7 +61,7 @@ function Navigation() {
       dispatch(
         fetchFilterMovies({
           sortBy: sortBy.type,
-          genres: genres.join(","),
+          genres: genres,
           runtimeLte,
           page,
         })
@@ -80,7 +85,7 @@ function Navigation() {
 
   const movies =
     filterMovies.results &&
-    filterMovies.results.map((item, index) => (
+    filterMovies.results.map((item) => (
       <div className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4" key={item.id}>
         <Link to={`/movie/${item.id}`}>
           <MovieCard {...item} isGrid />
@@ -116,7 +121,7 @@ function Navigation() {
             count={filterMovies.total_pages}
             page={page}
             onChange={onPaginateClick}
-          />
+          ></MyPagination>
         </div>
       </div>
     </div>

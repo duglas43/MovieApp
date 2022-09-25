@@ -6,4 +6,5 @@ import fullMovieSlice from "./slices/fullMovieSlice";
 const store = configureStore({
   reducer: { UiSlice, filterSlice, moviesSlice, fullMovieSlice },
 });
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

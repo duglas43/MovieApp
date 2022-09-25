@@ -3,7 +3,11 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import styles from "./MovieCard.module.scss";
 
-function Sceleton({ isGrid, isMini }) {
+type SceletonType = {
+  isGrid?: Boolean;
+  isMini?: Boolean;
+};
+const Sceleton: React.FC<SceletonType> = ({ isGrid, isMini }) => {
   if (isMini) {
     return (
       <SkeletonTheme duration={3} baseColor="#333335" highlightColor="#989898">
@@ -20,6 +24,6 @@ function Sceleton({ isGrid, isMini }) {
       </div>
     </SkeletonTheme>
   );
-}
+};
 
 export default Sceleton;

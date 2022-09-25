@@ -4,7 +4,8 @@ import rightArrow from "../../assets/right-arrow.svg";
 import leftArrow from "../../assets/left-arrow.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-function PrevArrow({ currentSlide, slideCount, ...props }) {
+import { MovieItem } from "../../redux/slices/moviesSlice";
+const PrevArrow: React.FC<any> = ({ currentSlide, slideCount, ...props }) => {
   return (
     <button {...props}>
       <div className="prev-slick-arrow">
@@ -12,8 +13,8 @@ function PrevArrow({ currentSlide, slideCount, ...props }) {
       </div>
     </button>
   );
-}
-function NextArrow({ currentSlide, slideCount, ...props }) {
+};
+const NextArrow: React.FC<any> = ({ currentSlide, slideCount, ...props }) => {
   return (
     <button {...props}>
       <div className="next-slick-arrow">
@@ -21,8 +22,11 @@ function NextArrow({ currentSlide, slideCount, ...props }) {
       </div>
     </button>
   );
-}
-function MySlider({ slideList, listTitle }) {
+};
+const MySlider: React.FC<{ slideList: any; listTitle: string }> = ({
+  slideList,
+  listTitle,
+}) => {
   const settings = {
     className: "slider variable-width",
     infinite: true,
@@ -43,8 +47,8 @@ function MySlider({ slideList, listTitle }) {
   return (
     <div className="slider-wrapper mt-5">
       <p className="slider__title title__text mb-4">{listTitle}</p>
-      <Slider {...settings}>{slideList.map((item) => item)}</Slider>
+      <Slider {...settings}>{slideList}</Slider>
     </div>
   );
-}
+};
 export default MySlider;

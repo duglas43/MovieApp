@@ -15,7 +15,17 @@ import {
 import { fetchPopularMovies, selectMovies } from "../redux/slices/moviesSlice";
 import { setActivePageId, setMiniSideBar } from "../redux/slices/UiSlice";
 
-const Sceleton = ({ width, height, borderRadius, count }) => (
+const Sceleton = ({
+  width,
+  height,
+  borderRadius,
+  count,
+}: {
+  width?: number;
+  height?: number;
+  borderRadius?: number;
+  count?: number;
+}) => (
   <SkeletonTheme
     duration={3}
     baseColor="#333335"
@@ -31,7 +41,7 @@ const Sceleton = ({ width, height, borderRadius, count }) => (
 );
 
 function FullMovie() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const { id } = useParams();
   const { popularMoviesStatus, popularMovies } = useSelector(selectMovies);
   const { fullMovieInfo, fullMovieInfoStatus, trailers, trailersStatus } =
@@ -46,7 +56,7 @@ function FullMovie() {
     dispatch(fetchFullMovie(id));
     dispatch(fetchMovieTrailers(id));
   }, [id]);
-  if (fullMovieInfoStatus === "error" || trailersStatus === "erroe") {
+  if (fullMovieInfoStatus === "error" || trailersStatus === "error") {
     return (
       <div
         className="d-flex fullMovieError w-100 position-absolute top-0 start-0 bottom-0 end-0 justify-content-center align-items-center text-white"
@@ -137,8 +147,8 @@ function FullMovie() {
                 value={fullMovieInfo?.vote_average}
                 text={
                   fullMovieInfo?.vote_average
-                    ? `${fullMovieInfo.vote_average}`
-                    : 0
+                    ? `${String(fullMovieInfo.vote_average)}`
+                    : "0"
                 }
                 maxValue={10}
                 styles={buildStyles({
@@ -166,14 +176,14 @@ function FullMovie() {
             </div>
             <p className="text-uppercase text-white fs-5 mb-2 mt-4">Детали</p>
             <div className="fs-6 lh-base">
-              Статус: {fullMovieInfo?.status || "I don't know"}
-              <br /> Дата выхода:{" "}
-              {fullMovieInfo?.release_date || "I don't know"}
-              <br /> Оригинальный язык:{" "}
-              {fullMovieInfo && fullMovieInfo.spoken_languages
-                ? fullMovieInfo.spoken_languages[0].name
-                : "I don't know"}
-              <br />
+              <div>Статус: {fullMovieInfo?.status || "I don't know"}</div>
+              <div>
+                Дата выхода: {fullMovieInfo?.release_date || "I don't know"}
+              </div>
+              <div>
+                <span>Оригинальный язык:</span>
+                {fullMovieInfo?.spoken_languages[0]?.name || "I don't know"}
+              </div>
             </div>
           </div>
           <div className="col-12 col-md-3  px-md-4">
@@ -189,7 +199,6 @@ function FullMovie() {
                         height="250"
                         src={`https://www.youtube.com/embed/${item.key}?controls=0`}
                         title="YouTube video player"
-                        frame="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       ></iframe>
@@ -206,7 +215,10 @@ function FullMovie() {
           </div>
         </div>
       </div>
-      <PopularBar movies={popularMovies} status={popularMoviesStatus} />
+      <PopularBar
+        movies={popularMovies}
+        status={popularMoviesStatus}
+      ></PopularBar>
     </div>
   );
 }

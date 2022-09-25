@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
+import { RootState } from "../store";
+interface UiState {
+  sideBarMobileActive: boolean;
+  sideBarMini: boolean;
+  activePageId: number;
+}
+const initialState:UiState = {
   sideBarMobileActive: false,
   sideBarMini: false,
   activePageId: 0,
@@ -59,5 +64,5 @@ export const {
   setActivePageId,
   setPagePath,
 } = Ui.actions;
-export const selectUi = (state) => state.UiSlice;
+export const selectUi = (state:RootState) => state.UiSlice;
 export default Ui.reducer;

@@ -1,6 +1,10 @@
 import React from "react";
-import movieCardImg from "../../assets/movieCard.jpg";
-function MiniMovieCard({ poster_path, title, vote_average }) {
+import { MovieCardProps } from ".";
+const MiniMovieCard: React.FC<MovieCardProps> = ({
+  poster_path,
+  title,
+  vote_average,
+}) => {
   return (
     <li className="right-bar__card d-flex gap-2 mb-3">
       <img
@@ -22,6 +26,6 @@ function MiniMovieCard({ poster_path, title, vote_average }) {
       </div>
     </li>
   );
-}
+};
 
 export default MiniMovieCard;

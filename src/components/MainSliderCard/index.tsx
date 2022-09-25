@@ -3,14 +3,22 @@ import React from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { genreList } from "../../redux/slices/filterSlice";
-function SliderCard({
+type SliderCardProps = {
+  backdrop_path: string;
+  vote_average: number;
+  genre_ids: number[];
+  title: string;
+  release_date: string;
+  overview: string;
+};
+const SliderCard: React.FC<SliderCardProps> = ({
   backdrop_path,
   vote_average,
   genre_ids,
   title,
   release_date,
   overview,
-}) {
+}) => {
   return (
     <div
       className="slider-card rounded-2 ps-4 ps-lg-5 pt-1 "
@@ -41,6 +49,6 @@ function SliderCard({
       </div>
     </div>
   );
-}
+};
 
 export default SliderCard;

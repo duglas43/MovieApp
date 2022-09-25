@@ -3,11 +3,11 @@ $light-grey: rgb(209, 213, 219);
 $dark-grey-1: rgb(73, 73, 75);
 $dark-grey: rgb(51, 51, 53);
 $black: rgb(28, 28, 30);
-$blue: rgb(81, 121, 255);
+$my-blue: rgb(81, 121, 255);
 $light-text: rgb(229, 231, 235);
 
 .blue {
-  color: $blue;
+  color: $my-blue;
 }
 
 .light__text {
