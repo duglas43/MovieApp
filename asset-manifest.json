@@ -1,10 +1,9 @@
 {
   "files": {
-    "main.css": "/MovieApp/static/css/main.ea32d6c1.css",
-    "main.js": "/MovieApp/static/js/main.44cb128e.js",
+    "main.css": "/MovieApp/static/css/main.dc20381e.css",
+    "main.js": "/MovieApp/static/js/main.7f91cb3e.js",
     "static/media/not-found-img.jpg": "/MovieApp/static/media/not-found-img.7a30f9a51b42e53a8202.jpg",
     "static/media/search-img.jpg": "/MovieApp/static/media/search-img.51e509ead046975b209a.jpg",
-    "static/media/movieCard.jpg": "/MovieApp/static/media/movieCard.578e2b2f110d0010acd3.jpg",
     "static/media/HelveticaNeueCyr-Roman.woff2": "/MovieApp/static/media/HelveticaNeueCyr-Roman.d59df5a538d671a54c79.woff2",
     "static/media/HelveticaNeueCyr-Medium.woff2": "/MovieApp/static/media/HelveticaNeueCyr-Medium.751c19bd96c1fdbe6c88.woff2",
     "static/media/HelveticaNeueCyr-Bold.woff2": "/MovieApp/static/media/HelveticaNeueCyr-Bold.a737902275e936eaf242.woff2",
@@ -15,11 +14,11 @@
     "static/media/right-arrow.svg": "/MovieApp/static/media/right-arrow.64078b8614d450e512822fc804734fe4.svg",
     "static/media/left-arrow.svg": "/MovieApp/static/media/left-arrow.b2201b0daa43bdd96277cee5e980ada5.svg",
     "index.html": "/MovieApp/index.html",
-    "main.ea32d6c1.css.map": "/MovieApp/static/css/main.ea32d6c1.css.map",
-    "main.44cb128e.js.map": "/MovieApp/static/js/main.44cb128e.js.map"
+    "main.dc20381e.css.map": "/MovieApp/static/css/main.dc20381e.css.map",
+    "main.7f91cb3e.js.map": "/MovieApp/static/js/main.7f91cb3e.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea32d6c1.css",
-    "static/js/main.44cb128e.js"
+    "static/css/main.dc20381e.css",
+    "static/js/main.7f91cb3e.js"
   ]
 }
