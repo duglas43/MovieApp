@@ -1,7 +1,7 @@
 import React from "react";
 import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   MovieCard,
   MovieCardLoading,
@@ -28,7 +28,9 @@ const SearchResult: React.FC = () => {
             key={item.id}
             className="g-col-10 g-col-sm-5  g-col-lg-5 g-col-xl-4"
           >
-            <MovieCard {...item} isGrid />
+            <Link to={`/movie/${item.id}`}>
+              <MovieCard {...item} isGrid />
+            </Link>
           </div>
         ))}
       </>
@@ -101,7 +103,7 @@ function SearchPage() {
   }, [searchValue, page]);
   return (
     <div>
-      <div className="container-fluid px-5 ">
+      <div className="container-fluid px-sm-5 ">
         <h2 className="text-white fs-2 mt-4 text-center mb-3">
           Найди свои любимые фильмы
         </h2>
@@ -133,7 +135,7 @@ function SearchPage() {
           <img src={placeholderImg} alt="" className="rounded-3 w-100 " />
         )}
         <PopularBar movies={popularMovies} status={popularMoviesStatus} />
-        <div className="d-flex justify-content-center mb-4">
+        <div className="d-flex justify-content-center mb-4 pb-4">
           {searchValue && (
             <MyPagination
               count={searchMovies.total_pages}

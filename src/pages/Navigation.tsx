@@ -116,7 +116,7 @@ function Navigation() {
         <div className="grid movie-grid gap-3 gap-md-4 mb-2">
           {filterMoviesStatus === "success" ? movies : sceletons}
         </div>
-        <div className="d-flex justify-content-center mb-4">
+        <div className="d-flex justify-content-center pb-4">
           <MyPagination
             count={filterMovies.total_pages}
             page={page}
