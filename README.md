@@ -1,4 +1,4 @@
-# Киносайт на Typescript (В РАЗРАБОТКЕ)
+# Киносайт на Typescript
 
 ## Stack
 
@@ -12,6 +12,7 @@
 - Axios
 - React Bootstrap
 - React-content-loader
+- MUI
 
 ## Новые для меня технологиии, которые я применил в этом проекте
 
@@ -19,11 +20,16 @@
 - debounce, поиск фильмов с помощью backend
 - Css modules
 - Новые хуки React Router
+- MUI
 - Оптимизация отрисовки страниц
 
 ## Ссылка на сайт
 
 https://duglas43.github.io/MovieApp/
+
+## Проблемы с сайтом, которые могут возникнуть
+
+Возможно у вас не будут отображаться изображения фильмов или даже карточки с фильмами. Это из-за backend-а, я с этим ничего поделать не могу. Включите VPN.
 
 ## Getting Started with Create React App
 
